@@ -1,0 +1,28 @@
+{
+  "extends": "airbnb-base",
+  "rules": {
+    "no-console": "off",
+    "no-plusplus": "off",
+    "prefer-destructuring": "off",
+    "object-curly-newline": "off",
+    "no-await-in-loop": "off",
+    "no-param-reassign": "off",
+    "no-bitwise": "off",
+    "max-len": [
+      "error",
+      200
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  },
+  "settings": {
+    "globals": {
+      "describe": true,
+      "it": true
+    }
+  }
+}
