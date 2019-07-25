@@ -3,6 +3,7 @@
 The library of genetic algorithm
 
 ```javascript
+const { Population } = require('gen-alg');
 
 const population = new Population({
   schema: {
