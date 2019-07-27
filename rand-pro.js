@@ -18,13 +18,12 @@ class Roulette {
   }
 
   nextCouple() {
-    const value1 = Math.random() * this.probabilitySum;
-    const i = utils.getIndex(this.intervals, value1);
-    const value2 = Math.random();
-    const pv1 = (this.probabilitySum - this.probabilities[i]) * value2;
+    const i = this.next();
+    const value = Math.random();
+    const pv1 = (this.probabilitySum - this.probabilities[i]) * value;
     const j = i > 0 && pv1 <= this.intervals[i - 1]
       ? utils.getIndex(this.intervals, pv1)
-      : utils.getIndex(this.intervals, this.intervals[i] + (value2 * (this.probabilitySum - this.intervals[i])));
+      : utils.getIndex(this.intervals, this.intervals[i] + (value * (this.probabilitySum - this.intervals[i])));
     return { i, j };
   }
 }
