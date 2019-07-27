@@ -16,7 +16,6 @@ class Entity {
         const field = schema.fields[i];
         this.setters.push(new Setter({ field, value: this.genotype.next(field.type) }));
       }
-      this.genotype.flush();
     } else {
       this.genotype = new Genotype();
       for (let i = 0; i < schema.fields.length; i++) {
@@ -25,8 +24,9 @@ class Entity {
         this.setters.push(setter);
         this.genotype.push(setter.field.type, setter.value, setter.field.min, setter.field.max, setter.field.digits);
       }
-      this.genotype.freeze();
     }
+    this.genotype.flush();
+    this.id = this.genotype.toString();
   }
 
   setCloneLabel(label = true) {

@@ -55,12 +55,7 @@ class Genotype {
     this.position = 0;
     this.intPosition = 0;
     this.floatPosition = 0;
-  }
-
-  freeze() {
-    this.flush();
     this.mode = READ_MODE;
-    this.code = this.gens.map(x => (x ? '1' : '0')).join('');
   }
 
   clone() {
@@ -192,6 +187,10 @@ class Genotype {
       default:
         throw new Error(`unknown field type: ${type}`);
     }
+  }
+
+  toString() {
+    return this.gens.map(x => (x ? '1' : '0')).join('');
   }
 }
 

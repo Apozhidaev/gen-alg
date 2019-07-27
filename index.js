@@ -41,14 +41,14 @@ class Population {
   }
 
   _select() {
-    const codeSet = new Set();
+    const idSet = new Set();
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
-      const code = entity.genotype.code;
-      if (codeSet.has(code)) {
+      const id = entity.id;
+      if (idSet.has(id)) {
         entity.setCloneLabel();
       } else {
-        codeSet.add(code);
+        idSet.add(id);
       }
     }
     this.entities.sort((a, b) => a.compare(b));
