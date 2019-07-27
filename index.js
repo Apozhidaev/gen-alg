@@ -9,9 +9,6 @@ class Population {
     this.schema = new Schema({ value: schema });
     this._toFitness = toFitness;
     this.entities = [];
-    for (let i = 0; i < size; i++) {
-      this.entities.push(new Entity({ schema: this.schema }));
-    }
     this.options = {
       mutation: 0.1,
       correlation: 0,
@@ -21,6 +18,9 @@ class Population {
       ...options,
     };
     this.size = size || Math.min(this.schema.autoSize(), this.options.maxSize);
+    for (let i = 0; i < this.size; i++) {
+      this.entities.push(new Entity({ schema: this.schema }));
+    }
     this._checkRadiation = () => Math.random() < this.options.mutation;
     this._adapt();
   }

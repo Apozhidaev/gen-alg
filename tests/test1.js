@@ -8,10 +8,10 @@ function run() {
         type: 'float',
         min: 0,
         max: 1,
-        digits: 2,
+        digits: 3,
       },
     },
-    size: 10,
+    // size: 10,
     toFitness: entity => 1 - ((entity.a - 0.5) ** 2),
   });
   let stop = false;
