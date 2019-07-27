@@ -6,29 +6,31 @@ class Entity {
   constructor({ schema, genotype }) {
     this.schema = schema;
     this.oldCoef = 1;
-    this.setters = [];
-    if (genotype) {
-      for (let i = 0; i < schema.fields.length; i++) {
-        const field = schema.fields[i];
-        this.setters.push(new Setter({ field, value: genotype.next(field.type) }));
-      }
-      this.name = genotype.toString();
-    } else {
-      for (let i = 0; i < schema.fields.length; i++) {
-        const field = schema.fields[i];
-        this.setters.push(new Setter({ field }));
-      }
-      this.name = 'firstborn';
-    }
     this.cloneLabel = false;
+    /** @type {Setter[]} */
+    this.setters = [];
+    /** @type {Genotype} */
+    this.genotype = genotype;
+    if (this.genotype) {
+      for (let i = 0; i < schema.fields.length; i++) {
+        const field = schema.fields[i];
+        this.setters.push(new Setter({ field, value: this.genotype.next(field.type) }));
+      }
+    } else {
+      this.genotype = new Genotype();
+      for (let i = 0; i < schema.fields.length; i++) {
+        const field = schema.fields[i];
+        const setter = new Setter({ field });
+        this.setters.push(setter);
+        this.genotype.push(setter.field.type, setter.value, setter.field.min, setter.field.max, setter.field.digits);
+      }
+    }
+    this.genotype.flush();
+    this.id = this.genotype.toString();
   }
 
   setCloneLabel(label = true) {
     this.cloneLabel = label;
-  }
-
-  firstborn() {
-    return this.name === 'firstborn';
   }
 
   nextYear(oldStep) {
@@ -57,13 +59,7 @@ class Entity {
   }
 
   toGenotype() {
-    const genotype = new Genotype();
-    for (let i = 0; i < this.setters.length; i++) {
-      const setter = this.setters[i];
-      genotype.push(setter.field.type, setter.value, setter.field.min, setter.field.max, setter.field.digits);
-    }
-    genotype.flush();
-    return genotype;
+    return this.genotype.clone();
   }
 
   toObject() {
@@ -73,10 +69,6 @@ class Entity {
       utils.set(object, setter.field.path, setter.value);
     }
     return object;
-  }
-
-  toString() {
-    return this.name;
   }
 }
 
