@@ -40,7 +40,6 @@ class Genotype {
     this.floatDigits = [];
 
     this.mode = WRITE_MODE;
-    this.code = 'empty';
   }
 
   _checkWrite() {
@@ -75,7 +74,6 @@ class Genotype {
     genotype.floatDigits = this.floatDigits.slice();
 
     genotype.mode = this.mode;
-    genotype.code = this.code;
     return genotype;
   }
 
