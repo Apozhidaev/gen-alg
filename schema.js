@@ -3,30 +3,6 @@
 const utils = require('./utils');
 
 
-const schema = {
-  field1: {
-    type: 'int',
-    min: 0,
-    max: 100,
-  },
-  field2: {
-    type: 'float',
-    min: 0,
-    max: 1,
-    digits: 2,
-  },
-  field3: {
-    type: 'object',
-    fields: {
-      field1: {
-        type: 'int',
-        min: 0,
-        max: 50,
-      }
-    }
-  },
-};
-
 function parseSchema(schema, fields, prefix = '') {
   for (const field in schema) {
     const summary = schema[field];
