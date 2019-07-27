@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const utils = require('./utils');
 
 const WRITE_MODE = 1;
@@ -39,13 +40,14 @@ class Genotype {
     this.floatDigits = [];
 
     this.mode = WRITE_MODE;
+    this.code = 'empty';
   }
 
-  checkWrite() {
+  _checkWrite() {
     if (this.mode !== WRITE_MODE) throw new Error('Genotype: cannot write ');
   }
 
-  checkRead() {
+  _checkRead() {
     if (this.mode !== READ_MODE) throw new Error('Genotype: cannot read ');
   }
 
@@ -56,7 +58,28 @@ class Genotype {
     this.mode = READ_MODE;
   }
 
-  nextIntBase() {
+  clone() {
+    const genotype = new Genotype();
+    genotype.gens = this.gens.slice();
+    genotype.count = this.count;
+    genotype.position = this.position;
+    genotype.litIndexs = this.litIndexs.slice();
+
+    genotype.intPosition = this.intPosition;
+    genotype.intMins = this.intMins.slice();
+    genotype.intMaxs = this.intMaxs.slice();
+
+    genotype.floatPosition = this.floatPosition;
+    genotype.floatMins = this.floatMins.slice();
+    genotype.floatMaxs = this.floatMaxs.slice();
+    genotype.floatDigits = this.floatDigits.slice();
+
+    genotype.mode = this.mode;
+    genotype.code = this.code;
+    return genotype;
+  }
+
+  _nextIntBase() {
     let res = 0;
     for (let i = this.litIndexs[this.position], j = 0; i < this.litIndexs[this.position + 1]; ++i, ++j) {
       if (this.gens[i]) {
@@ -67,7 +90,7 @@ class Genotype {
     return res;
   }
 
-  pushIntBase(value, baseCount) {
+  _pushIntBase(value, baseCount) {
     for (let i = 0; i < baseCount; i++) {
       if (value > 0) {
         const temp = Math.trunc(value / 2);
@@ -83,9 +106,9 @@ class Genotype {
   }
 
   nextInt() {
-    this.checkRead();
+    this._checkRead();
 
-    let value = this.nextIntBase();
+    let value = this._nextIntBase();
     value += this.intMins[this.intPosition];
     const max = this.intMaxs[this.intPosition];
     if (value > max) {
@@ -96,18 +119,18 @@ class Genotype {
   }
 
   pushInt(value, min, max) {
-    this.checkWrite();
+    this._checkWrite();
 
     this.intMins.push(min);
     this.intMaxs.push(max);
     const baseCount = utils.getBitCount(max - min);
-    this.pushIntBase(value - min, baseCount);
+    this._pushIntBase(value - min, baseCount);
   }
 
   nextFloat() {
-    this.checkRead();
+    this._checkRead();
 
-    let value = this.nextIntBase();
+    let value = this._nextIntBase();
 
     const min = this.floatMins[this.floatPosition];
     const max = this.floatMaxs[this.floatPosition];
@@ -127,7 +150,7 @@ class Genotype {
   }
 
   pushFloat(value, min, max, digits) {
-    this.checkWrite();
+    this._checkWrite();
 
     this.floatMins.push(min);
     this.floatMaxs.push(max);
@@ -139,7 +162,7 @@ class Genotype {
     value /= mod;
     value *= D10[digits];
 
-    this.pushIntBase(Math.trunc(value), D10Bit[digits]);
+    this._pushIntBase(Math.trunc(value), D10Bit[digits]);
   }
 
   push(type, value, min, max, digits) {

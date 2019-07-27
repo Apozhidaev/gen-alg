@@ -8,7 +8,7 @@ function run() {
         type: 'float',
         min: 0,
         max: 1,
-        digits: 3,
+        digits: 2,
       },
     },
     // size: 10,
