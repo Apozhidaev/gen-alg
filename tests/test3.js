@@ -16,8 +16,8 @@ async function run() {
         digits: 2,
       },
     },
-    size: 52,
-    toFitness: entity => {
+    // size: 52,
+    toFitness: (entity) => {
       const e1 = ((entity.a - 50) / 100) ** 2;
       const e2 = (entity.b - 0.5) ** 2;
       const e = Math.max(e1, e2);
