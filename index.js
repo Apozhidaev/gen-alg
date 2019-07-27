@@ -5,7 +5,7 @@ const { mutator, crossover } = require('./operator');
 
 
 class Population {
-  constructor({ schema, toFitness, options, size }) {
+  constructor({ schema, toFitness, size, options }) {
     this.schema = new Schema({ value: schema });
     this._toFitness = toFitness;
     this.entities = [];
@@ -13,30 +13,30 @@ class Population {
       this.entities.push(new Entity({ schema: this.schema }));
     }
     this.options = {
-      mutationProbability: 0.1,
-      mutationDensity: 1,
-      crossingDensity: 1,
+      mutation: 0.1,
+      correlation: 0,
       oldStep: 0.01,
       stochastic: false,
       maxSize: 1000,
       ...options,
     };
     this.size = size || Math.min(this.schema.autoSize(), this.options.maxSize);
-    this._checkLucky = () => Math.random() < this.options.mutationProbability;
+    this._checkRadiation = () => Math.random() < this.options.mutation;
+    this._adapt();
   }
 
   _adapt() {
-    let solution = false;
-    for (let i = 0; i < this.entities.length; i++) {
+    let stop = false;
+    for (let i = 0; i < this.entities.length && !stop; i++) {
       const entity = this.entities[i];
       if (this.options.stochastic || entity.fitness === undefined) {
         entity.fitness = this._toFitness(entity.toObject());
         if (entity.fitness >= 1) {
-          solution = true;
+          stop = true;
         }
       }
     }
-    return solution;
+    return stop;
   }
 
   _select() {
@@ -67,14 +67,16 @@ class Population {
       const genotype1 = this.entities[i].toGenotype();
       const genotype2 = this.entities[j].toGenotype();
 
-      crossover(genotype1, genotype2, this.options.crossingDensity);
+      const density = 1 - this.options.correlation;
 
-      if (this._checkLucky()) {
-        mutator(genotype1, this.options.mutationDensity);
+      crossover(genotype1, genotype2, density);
+
+      if (this._checkRadiation()) {
+        mutator(genotype1, density);
       }
 
-      if (this._checkLucky()) {
-        mutator(genotype2, this.options.mutationDensity);
+      if (this._checkRadiation()) {
+        mutator(genotype2, density);
       }
 
       this.entities.push(new Entity({ schema: this.schema, genotype: genotype1 }));
@@ -82,17 +84,20 @@ class Population {
     }
   }
 
-  next(count = 1) {
-    let solution = false;
-    for (let i = 0; i < count; i++) {
-      solution = this._adapt();
-      if (solution) break;
-      this._select();
-      this._genetic();
-    }
-    return solution;
+  /**
+  * The next generation 
+  * @return {boolean} stop indicator
+  */
+  next() {
+    this._select();
+    this._genetic();
+    return this._adapt();
   }
 
+  /**
+  * The best individual 
+  * @return {object} individual
+  */
   best() {
     const entities = this.entities.filter(entity => entity.fitness !== undefined);
     const entity = entities.reduce((out, val) => (out && out.fitness > val.fitness ? out : val), undefined);
