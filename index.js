@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const { Roulette } = require('./rand-pro');
 const Schema = require('./schema');
 const Entity = require('./entity');
@@ -8,10 +9,10 @@ class Population {
   constructor({ schema, toFitness, size, options }) {
     this.schema = new Schema({ value: schema });
     this._toFitness = toFitness;
+    /** @type {Entity[]} */
     this.entities = [];
     this.options = {
       mutation: 0.1,
-      correlation: 0,
       oldStep: 0.01,
       stochastic: false,
       maxSize: 1000,
@@ -40,16 +41,14 @@ class Population {
   }
 
   _select() {
-    const nameSet = new Set();
+    const codeSet = new Set();
     for (let i = 0; i < this.entities.length; i++) {
       const entity = this.entities[i];
-      if (!entity.firstborn()) {
-        const name = entity.toString();
-        if (nameSet.has(name)) {
-          entity.setCloneLabel();
-        } else {
-          nameSet.add(name);
-        }
+      const code = entity.genotype.code;
+      if (codeSet.has(code)) {
+        entity.setCloneLabel();
+      } else {
+        codeSet.add(code);
       }
     }
     this.entities.sort((a, b) => a.compare(b));
@@ -67,16 +66,14 @@ class Population {
       const genotype1 = this.entities[i].toGenotype();
       const genotype2 = this.entities[j].toGenotype();
 
-      const density = 1 - this.options.correlation;
-
-      crossover(genotype1, genotype2, density);
+      crossover(genotype1, genotype2);
 
       if (this._checkRadiation()) {
-        mutator(genotype1, density);
+        mutator(genotype1);
       }
 
       if (this._checkRadiation()) {
-        mutator(genotype2, density);
+        mutator(genotype2);
       }
 
       this.entities.push(new Entity({ schema: this.schema, genotype: genotype1 }));
@@ -85,7 +82,7 @@ class Population {
   }
 
   /**
-  * The next generation 
+  * The next generation
   * @return {boolean} stop indicator
   */
   next() {
@@ -95,7 +92,7 @@ class Population {
   }
 
   /**
-  * The best individual 
+  * The best individual
   * @return {object} individual
   */
   best() {

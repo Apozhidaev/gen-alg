@@ -10,7 +10,7 @@ async function run() {
         max: 100,
       },
     },
-    size: 10,
+    // size: 10,
     toFitness: entity => 1 - (((entity.a - 50) / 100) ** 2),
   });
   let stop = false;
