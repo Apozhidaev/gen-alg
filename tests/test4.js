@@ -1,6 +1,6 @@
 const { Population, fitnessHelper } = require('../index');
 
-async function run() {
+function run() {
   console.log('test4');
 
   // ------ Array hack ------

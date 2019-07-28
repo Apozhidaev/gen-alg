@@ -1,12 +1,13 @@
 {
   "name": "gen-alg",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "The library of genetic algorithm",
   "main": "index.js",
   "scripts": {
     "test1": "node ./tests/test1.js",
     "test2": "node ./tests/test2.js",
-    "test3": "node ./tests/test3.js"
+    "test3": "node ./tests/test3.js",
+    "test4": "node ./tests/test4.js"
   },
   "keywords": [
     "genetic",

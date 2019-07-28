@@ -1,6 +1,6 @@
 const { Population, fitnessHelper } = require('../index');
 
-async function run() {
+function run() {
   console.log('test3');
   const population = new Population({
     schema: {
