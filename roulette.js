@@ -28,6 +28,4 @@ class Roulette {
   }
 }
 
-module.exports = {
-  Roulette,
-};
+module.exports = Roulette;
