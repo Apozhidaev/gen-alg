@@ -1,4 +1,4 @@
-const { Roulette } = require('./rand-pro');
+const Roulette = require('./roulette');
 const Schema = require('./schema');
 const Entity = require('./entity');
 const { mutator, crossover } = require('./operator');
@@ -6,10 +6,11 @@ const { mutator, crossover } = require('./operator');
 
 class Population {
   constructor({ schema, toFitness, size, options }) {
+    /** @type {Schema} */
     this.schema = new Schema({ value: schema });
-    this._toFitness = toFitness;
     /** @type {Entity[]} */
     this.entities = [];
+    this._toFitness = toFitness;
     this.options = {
       mutation: 0.1,
       oldStep: 0.01,
