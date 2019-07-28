@@ -1,4 +1,4 @@
-const { Population } = require('../index');
+const { Population, fitnessHelper } = require('../index');
 
 async function run() {
   console.log('test2');
@@ -10,14 +10,14 @@ async function run() {
         max: 100,
       },
     },
-    // size: 10,
-    toFitness: entity => 1 - (((entity.a - 50) / 100) ** 2),
+    // size: 20,
+    toFitness: entity => fitnessHelper.forValue(entity.a, 50, 10),
   });
   let stop = false;
   for (let i = 0; i < 1000 && !stop; i++) {
     stop = population.next();
-    const res = population.best().a;
-    console.log(`${i}. - ${res}`);
+    const { a } = population.best();
+    console.log(`${i}. - ${a}`);
   }
 }
 
