@@ -3,6 +3,22 @@
 const utils = require('./utils');
 
 
+function checkParams(fields) {
+  for (let i = 0; i < fields.length; i++) {
+    const field = fields[i];
+    switch (field.type) {
+      case 'int':
+      case 'float':
+        if (!('max' in field)) throw Error(`schema.${field.path}, don't have "max" property`);
+        if (!('min' in field)) throw Error(`schema.${field.path}, don't have "min" property`);
+        if (field.type === 'float' && !('digits' in field)) throw Error(`schema.${field.path}, don't have "digits" property`);
+        break;
+      default:
+        throw new Error(`unknown field type: ${field.type}`);
+    }
+  }
+}
+
 function parseSchema(schema, fields, prefix = '') {
   for (const field in schema) {
     const summary = schema[field];
@@ -28,6 +44,7 @@ class Schema {
     this.value = value;
     this.fields = [];
     parseSchema(value, this.fields);
+    checkParams(this.fields);
     this.fields.sort((a, b) => {
       if (a.path < b.path) return -1;
       if (a.path > b.path) return 1;

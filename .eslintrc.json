@@ -1,13 +1,16 @@
 {
   "extends": "airbnb-base",
   "rules": {
+    "camelcase": "off",
     "no-console": "off",
     "no-plusplus": "off",
     "prefer-destructuring": "off",
     "object-curly-newline": "off",
-    "no-await-in-loop": "off",
     "no-param-reassign": "off",
     "no-bitwise": "off",
+    "no-underscore-dangle": "off",
+    "no-restricted-syntax": "off",
+    "guard-for-in": "off",
     "max-len": [
       "error",
       200
