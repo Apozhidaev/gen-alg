@@ -11,14 +11,14 @@ function run() {
         digits: 2,
       },
     },
-    // size: 10,
+    // size: 20,
     toFitness: entity => 1 - ((entity.a - 0.5) ** 2),
   });
   let stop = false;
   for (let i = 0; i < 1000 && !stop; i++) {
     stop = population.next();
-    const res = population.best().a;
-    console.log(`${i}. - ${res}`);
+    const { a } = population.best();
+    console.log(`${i}. - ${a}`);
   }
 }
 
