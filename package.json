@@ -1,13 +1,17 @@
 {
   "name": "gen-alg",
-  "version": "2.0.1",
-  "description": "",
+  "version": "2.1.2",
+  "description": "The library of genetic algorithm",
   "main": "index.js",
   "scripts": {
     "test1": "node ./tests/test1.js",
     "test2": "node ./tests/test2.js",
     "test3": "node ./tests/test3.js"
   },
+  "keywords": [
+    "genetic",
+    "algorithm"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Apozhidaev/gen-alg.git"
