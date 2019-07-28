@@ -18,7 +18,6 @@ class Population {
       ...options,
     };
     this.size = size || Math.min(this.schema.autoSize(), this.options.maxSize);
-    console.log(this.size);
     for (let i = 0; i < this.size; i++) {
       this.entities.push(new Entity({ schema: this.schema }));
     }

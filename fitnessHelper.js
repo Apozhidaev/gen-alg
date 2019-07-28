@@ -1,7 +1,7 @@
 /**
  * Gets fitness value
  * @param {number} x genetic field
- * @param {number} value target
+ * @param {number} value target value
  * @param {number} se standard error (se = Math.sqrt(max - min))
  * @return {number} fitness value [0, 1]
  */

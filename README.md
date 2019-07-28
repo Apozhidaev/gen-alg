@@ -65,7 +65,7 @@ const schema = {
 /**
  * Gets fitness value
  * @param {number} x genetic field
- * @param {number} value target
+ * @param {number} value target value
  * @param {number} se standard error (se = Math.sqrt(max - min))
  * @return {number} fitness value [0, 1]
  */
@@ -118,7 +118,7 @@ const population = new Population({
       digits: 2,
     },
   },
-  size: 40, // you can performance manipulation
+  size: 40, // you can performance manipulate
   toFitness: ({ a, b }) => fitnessHelper.forValue(a, 50, 10) * fitnessHelper.forValue(b, 0.5, 0.1),
 });
 let stop = false;
