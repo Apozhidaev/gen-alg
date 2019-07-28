@@ -14,6 +14,17 @@ function forValue(x, value, se) {
 /**
  * Gets fitness value
  * @param {number} x genetic field
+ * @param {number} value opposite value
+ * @param {number} se standard error (se = Math.sqrt(max - min))
+ * @return {number} fitness value [0, 1]
+ */
+function oppValue(x, value, se) {
+  return 1 - forValue(x, value, se);
+}
+
+/**
+ * Gets fitness value
+ * @param {number} x genetic field
  * @param {number} a right board target range
  * @param {number} b left board target range
  * @param {number} se standard error (se = Math.sqrt(max - min))
@@ -30,5 +41,6 @@ function forRange(x, a, b, se, se_b) {
 
 module.exports = {
   forValue,
+  oppValue,
   forRange,
 };
