@@ -1,9 +1,25 @@
+/**
+ * Gets fitness value
+ * @param {number} x genetic field
+ * @param {number} value target
+ * @param {number} se standard error (se = Math.sqrt(max - min))
+ * @return {number} fitness value [0, 1]
+ */
 function forValue(x, value, se) {
   if (x === value) return 1;
   const dev = Math.abs(x - value) / se;
   return Math.exp(-dev);
 }
 
+/**
+ * Gets fitness value
+ * @param {number} x genetic field
+ * @param {number} a right board target range
+ * @param {number} b left board target range
+ * @param {number} se standard error (se = Math.sqrt(max - min))
+ * @param {number?} se_b standard error for [b, max] interval
+ * @return {number} fitness value [0, 1]
+ */
 function forRange(x, a, b, se, se_b) {
   if (x >= a && x <= b) return 1;
   if (se_b !== undefined && x > b) se = se_b;
