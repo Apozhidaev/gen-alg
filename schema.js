@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
 const utils = require('./utils');
 
 
@@ -67,7 +65,7 @@ class Schema {
           throw new Error(`unknown field type: ${field.type}`);
       }
     }
-    return 20 + (2 * Math.trunc(genCount * Math.log10(genCount)));
+    return 20 + (genCount ** 2); // 20 - min value
   }
 }
 

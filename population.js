@@ -14,7 +14,7 @@ class Population {
       mutation: 0.1,
       oldStep: 0.01,
       stochastic: false,
-      maxSize: 1000,
+      maxSize: 100000,
       ...options,
     };
     this.size = size || Math.min(this.schema.autoSize(), this.options.maxSize);
