@@ -75,7 +75,7 @@ function forValue(x, value, se) {
   return Math.exp(-dev);
 }
 ```
-#### for example:
+for example:
 ```javascript
 const { Population, fitnessHelper } = require('gen-alg');
 
@@ -126,6 +126,58 @@ for (let i = 0; i < 1000 && !stop; i++) {
   stop = population.next();
   const { a, b } = population.best();
   console.log(`${i}. - ${a}, ${b}`);
+}
+
+```
+
+
+### Array hack
+
+The array type doesn't support yet. If you want use array you can write little hack,
+like that:
+
+```javascript
+const { Population, fitnessHelper } = require('gen-alg');
+
+// ------ Array hack ------
+const length = 9;
+const arraySchema = {};
+for (let i = 0; i < length; i++) {
+  arraySchema[i] = {
+    type: 'int',
+    min: 0,
+    max: 100,
+  };
+}
+
+function toArray(entity) {
+  const arr = [];
+  for (let i = 0; i < length; i++) {
+    arr.push(entity[i]);
+  }
+  return arr;
+}
+// -----------------------
+
+const population = new Population({
+  schema: arraySchema,
+  toFitness: (entity) => {
+    let fitness = 1;
+    const arr = toArray(entity);
+    for (let i = 0; i < arr.length; i++) {
+      const x = arr[i];
+      const targetValue = (i + 1) * 10;
+      fitness *= fitnessHelper.forValue(x, targetValue, 10);
+    }
+    return fitness;
+  },
+});
+
+let stop = false;
+for (let i = 0; i < 1000 && !stop; i++) {
+  stop = population.next();
+  const arr = toArray(population.best());
+  console.log(`${i}. - ${arr.toString()}`);
 }
 
 ```
