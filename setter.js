@@ -6,7 +6,7 @@ class Setter {
     if (value === undefined) {
       switch (field.type) {
         case 'int':
-          this.value = utils.randomInt(field.min, field.max);
+          this.value = utils.randomInRange(field.min, field.max);
           break;
         case 'float':
           this.value = utils.randomFloat(field.min, field.max);

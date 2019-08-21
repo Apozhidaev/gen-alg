@@ -40,6 +40,10 @@ function randomInt(min = 0, max = Number.MAX_SAFE_INTEGER) {
   return Math.trunc(randomFloat(min, max));
 }
 
+function randomInRange(min = 0, max = Number.MAX_SAFE_INTEGER - 1) {
+  return randomInt(min, max + 1);
+}
+
 function set(object, path, value) {
   const keys = path.split('.');
   let targetObject = object;
@@ -58,5 +62,6 @@ module.exports = {
   getBitCount,
   randomInt,
   randomFloat,
+  randomInRange,
   set,
 };
