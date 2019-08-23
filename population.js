@@ -18,13 +18,13 @@ class Population {
       maxSize: 100000,
       ...options,
     };
+    this.generation = 0;
     this.size = size || Math.min(this.schema.autoSize(), this.options.maxSize);
     for (let i = 0; i < this.size; i++) {
       this.entities.push(new Entity({ schema: this.schema }));
     }
     this._checkRadiation = () => Math.random() < this.options.mutation;
     this._adapt(true);
-    this.generation = 0;
   }
 
   _adapt(force = false) {
