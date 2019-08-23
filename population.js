@@ -24,6 +24,7 @@ class Population {
     }
     this._checkRadiation = () => Math.random() < this.options.mutation;
     this._adapt(true);
+    this.generation = 0;
   }
 
   _adapt(force = false) {
@@ -31,7 +32,7 @@ class Population {
     for (let i = 0; i < this.entities.length && (!stop || force); i++) {
       const entity = this.entities[i];
       if (this.options.stochastic || entity.fitness === undefined) {
-        entity.fitness = this._toFitness(entity.toObject());
+        entity.fitness = this._toFitness(entity.toObject(), this.generation, this);
         if (entity.fitness < 0) {
           throw new Error('fitness value < 0');
         }
@@ -89,6 +90,7 @@ class Population {
   * @return {boolean} stop indicator
   */
   next() {
+    ++this.generation;
     this._select();
     this._genetic();
     return this._adapt();

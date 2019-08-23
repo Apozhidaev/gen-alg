@@ -1,6 +1,6 @@
 {
   "name": "gen-alg",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "The library of genetic algorithm",
   "main": "index.js",
   "scripts": {
