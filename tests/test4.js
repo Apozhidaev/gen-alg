@@ -10,7 +10,7 @@ function run() {
     arraySchema[i] = {
       type: 'int',
       min: 0,
-      max: 100,
+      max: (length + 1) * 10,
     };
   }
 
@@ -39,7 +39,7 @@ function run() {
   console.log(population.size);
 
   let stop = false;
-  for (let i = 0; i < 10000 && !stop; i++) {
+  for (let i = 0; i < 150 && !stop; i++) {
     stop = population.next();
     const arr = toArray(population.best());
     console.log(`${i}. - ${arr.toString()}`);

@@ -43,11 +43,11 @@ class Genotype {
   }
 
   _checkWrite() {
-    if (this.mode !== WRITE_MODE) throw new Error('Genotype: cannot write ');
+    if (this.mode !== WRITE_MODE) throw new Error('Genotype: cannot write');
   }
 
   _checkRead() {
-    if (this.mode !== READ_MODE) throw new Error('Genotype: cannot read ');
+    if (this.mode !== READ_MODE) throw new Error('Genotype: cannot read');
   }
 
   flush() {
@@ -79,7 +79,11 @@ class Genotype {
 
   _nextIntBase() {
     let res = 0;
-    for (let i = this.litIndexs[this.position], j = 0; i < this.litIndexs[this.position + 1]; ++i, ++j) {
+    for (
+      let i = this.litIndexs[this.position], j = 0;
+      i < this.litIndexs[this.position + 1];
+      ++i, ++j
+    ) {
       if (this.gens[i]) {
         res += P2[j];
       }
@@ -188,7 +192,8 @@ class Genotype {
   }
 
   toString() {
-    return this.gens.map(x => (x ? '1' : '0')).join('');
+    // eslint-disable-next-line prefer-template
+    return this.gens.reduce((out, x) => (x ? out + '1' : out + '0'), '');
   }
 }
 
